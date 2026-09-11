@@ -1,23 +1,24 @@
+from config import pesos
 from motor import executar_rodada
 
 
 def executar_simulacao(total_rodadas):
+    if not isinstance(total_rodadas, int):
+        raise TypeError("total_rodadas deve ser um número inteiro")
+
+    if total_rodadas <= 0:
+        raise ValueError("total_rodadas deve ser maior que zero")
+
     vitorias = 0
 
     contagem_triplas = {
-        "🍒": 0,
-        "🍋": 0,
-        "🔔": 0,
-        "💎": 0,
-        "⭐": 0
+        simbolo: 0
+        for simbolo in pesos
     }
 
     contagem_simbolos = {
-        "🍒": 0,
-        "🍋": 0,
-        "🔔": 0,
-        "💎": 0,
-        "⭐": 0
+        simbolo: 0
+        for simbolo in pesos
     }
 
     for rodada in range(total_rodadas):
