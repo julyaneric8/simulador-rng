@@ -1,11 +1,8 @@
-import sys
 import unittest
 from unittest.mock import patch
 
-sys.path.append("src")
-
-from config import pesos, multiplicadores
-from motor import sortear_simbolo, executar_rodada
+from src.config import pesos, multiplicadores
+from src.motor import sortear_simbolo, executar_rodada
 
 
 class TestMotor(unittest.TestCase):
@@ -28,7 +25,7 @@ class TestMotor(unittest.TestCase):
         self.assertIn(posicao3, pesos)
 
     @patch(
-        "motor.sortear_simbolo",
+        "src.motor.sortear_simbolo",
         side_effect=["💎", "💎", "💎"]
     )
     def test_tripla_deve_retornar_multiplicador_correto(
@@ -43,7 +40,7 @@ class TestMotor(unittest.TestCase):
         self.assertEqual(multiplicador, multiplicadores["💎"])
 
     @patch(
-        "motor.sortear_simbolo",
+        "src.motor.sortear_simbolo",
         side_effect=["🍒", "🍋", "🔔"]
     )
     def test_simbolos_diferentes_devem_retornar_zero(

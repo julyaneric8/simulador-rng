@@ -1,7 +1,7 @@
 import random
 
-from config import pesos
-from simulador import executar_simulacao
+from src.config import pesos
+from src.simulador import executar_simulacao
 
 
 random.seed(42)

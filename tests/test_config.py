@@ -1,9 +1,6 @@
-import sys
 import unittest
 
-sys.path.append("src")
-
-from config import pesos
+from src.config import pesos
 
 
 class TestConfig(unittest.TestCase):

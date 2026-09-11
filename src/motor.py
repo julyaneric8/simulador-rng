@@ -1,6 +1,6 @@
 import random
 
-from config import pesos, multiplicadores
+from src.config import pesos, multiplicadores
 
 
 def sortear_simbolo():

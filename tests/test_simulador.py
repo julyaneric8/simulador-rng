@@ -1,9 +1,6 @@
-import sys
 import unittest
 
-sys.path.append("src")
-
-from simulador import executar_simulacao
+from src.simulador import executar_simulacao
 
 
 class TestSimulador(unittest.TestCase):

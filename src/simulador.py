@@ -1,5 +1,5 @@
-from config import pesos
-from motor import executar_rodada
+from src.config import pesos
+from src.motor import executar_rodada
 
 
 def executar_simulacao(total_rodadas):
