@@ -75,6 +75,22 @@ class TestSimulador(unittest.TestCase):
         with self.assertRaises(TypeError):
             executar_simulacao(10.5)
 
+    def test_mesma_seed_deve_produzir_mesmo_resultado(self):
+        primeiro_resultado = executar_simulacao(
+            100,
+            seed=42
+        )
+
+        segundo_resultado = executar_simulacao(
+            100,
+            seed=42
+        )
+
+        self.assertEqual(
+            primeiro_resultado,
+            segundo_resultado
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

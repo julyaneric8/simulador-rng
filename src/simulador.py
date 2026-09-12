@@ -1,13 +1,18 @@
+import random
+
 from src.config import pesos
 from src.motor import executar_rodada
 
 
-def executar_simulacao(total_rodadas):
+def executar_simulacao(total_rodadas, seed=None):
     if not isinstance(total_rodadas, int):
         raise TypeError("total_rodadas deve ser um número inteiro")
 
     if total_rodadas <= 0:
         raise ValueError("total_rodadas deve ser maior que zero")
+
+    if seed is not None:
+        random.seed(seed)
 
     vitorias = 0
 
