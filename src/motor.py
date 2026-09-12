@@ -1,11 +1,9 @@
-import random
-
 from src.config import pesos, multiplicadores
 
 
-def sortear_simbolo():
+def sortear_simbolo(gerador):
     acumulado = 0
-    numero = random.randint(1, 100)
+    numero = gerador.randint(1, 100)
 
     for simbolo, peso in pesos.items():
         acumulado = acumulado + peso
@@ -14,10 +12,10 @@ def sortear_simbolo():
             return simbolo
 
 
-def executar_rodada():
-    posicao1 = sortear_simbolo()
-    posicao2 = sortear_simbolo()
-    posicao3 = sortear_simbolo()
+def executar_rodada(gerador):
+    posicao1 = sortear_simbolo(gerador)
+    posicao2 = sortear_simbolo(gerador)
+    posicao3 = sortear_simbolo(gerador)
 
     if posicao1 == posicao2 and posicao2 == posicao3:
         multiplicador = multiplicadores[posicao1]

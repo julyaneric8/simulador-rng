@@ -11,8 +11,7 @@ def executar_simulacao(total_rodadas, seed=None):
     if total_rodadas <= 0:
         raise ValueError("total_rodadas deve ser maior que zero")
 
-    if seed is not None:
-        random.seed(seed)
+    gerador = random.Random(seed)
 
     vitorias = 0
 
@@ -27,7 +26,9 @@ def executar_simulacao(total_rodadas, seed=None):
     }
 
     for rodada in range(total_rodadas):
-        posicao1, posicao2, posicao3, multiplicador = executar_rodada()
+        posicao1, posicao2, posicao3, multiplicador = executar_rodada(
+            gerador
+        )
 
         contagem_simbolos[posicao1] = contagem_simbolos[posicao1] + 1
         contagem_simbolos[posicao2] = contagem_simbolos[posicao2] + 1

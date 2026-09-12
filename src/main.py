@@ -32,7 +32,10 @@ def main():
     print()
 
     for simbolo, quantidade in contagem_simbolos.items():
-        porcentagem_observada = (quantidade / total_simbolos) * 100
+        porcentagem_observada = (
+            quantidade / total_simbolos
+        ) * 100
+
         porcentagem_teorica = pesos[simbolo]
 
         print(
@@ -40,6 +43,35 @@ def main():
             f"Quantidade: {quantidade} | "
             f"Teórico: {porcentagem_teorica:.4f}% | "
             f"Observado: {porcentagem_observada:.4f}%"
+        )
+
+    print()
+    print("=== TRIPLAS: TEÓRICO X OBSERVADO ===")
+    print()
+
+    for simbolo, quantidade in contagem_triplas.items():
+        probabilidade_simbolo = pesos[simbolo] / 100
+
+        probabilidade_tripla = probabilidade_simbolo ** 3
+
+        porcentagem_teorica_tripla = (
+            probabilidade_tripla * 100
+        )
+
+        quantidade_teorica_tripla = (
+            total_rodadas * probabilidade_tripla
+        )
+
+        porcentagem_observada_tripla = (
+            quantidade / total_rodadas
+        ) * 100
+
+        print(
+            f"{simbolo}{simbolo}{simbolo} → "
+            f"Observado: {quantidade} | "
+            f"Esperado: {quantidade_teorica_tripla:.2f} | "
+            f"Teórico: {porcentagem_teorica_tripla:.4f}% | "
+            f"Observado: {porcentagem_observada_tripla:.4f}%"
         )
 
 

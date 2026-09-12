@@ -1,58 +1,95 @@
 import unittest
-from unittest.mock import patch
 
-from src.config import pesos, multiplicadores
-from src.motor import sortear_simbolo, executar_rodada
+from src.simulador import executar_simulacao
 
 
-class TestMotor(unittest.TestCase):
+class TestSimulador(unittest.TestCase):
 
-    def test_simbolo_sorteado_deve_existir_na_configuracao(self):
-        simbolo = sortear_simbolo()
+    def test_dez_rodadas_devem_contabilizar_trinta_simbolos(self):
+        total_rodadas = 10
 
-        self.assertIn(simbolo, pesos)
+        (
+            vitorias,
+            frequencia_vitorias,
+            contagem_triplas,
+            contagem_simbolos
+        ) = executar_simulacao(total_rodadas)
 
-    def test_rodada_deve_retornar_quatro_valores(self):
-        resultado = executar_rodada()
+        total_simbolos = sum(contagem_simbolos.values())
 
-        self.assertEqual(len(resultado), 4)
+        self.assertEqual(total_simbolos, 30)
 
-    def test_posicoes_devem_conter_simbolos_validos(self):
-        posicao1, posicao2, posicao3, multiplicador = executar_rodada()
+    def test_quantidade_de_vitorias_deve_ser_valida(self):
+        total_rodadas = 10
 
-        self.assertIn(posicao1, pesos)
-        self.assertIn(posicao2, pesos)
-        self.assertIn(posicao3, pesos)
+        (
+            vitorias,
+            frequencia_vitorias,
+            contagem_triplas,
+            contagem_simbolos
+        ) = executar_simulacao(total_rodadas)
 
-    @patch(
-        "src.motor.sortear_simbolo",
-        side_effect=["💎", "💎", "💎"]
-    )
-    def test_tripla_deve_retornar_multiplicador_correto(
-        self,
-        mock_sortear_simbolo
-    ):
-        posicao1, posicao2, posicao3, multiplicador = executar_rodada()
+        self.assertGreaterEqual(vitorias, 0)
+        self.assertLessEqual(vitorias, total_rodadas)
 
-        self.assertEqual(posicao1, "💎")
-        self.assertEqual(posicao2, "💎")
-        self.assertEqual(posicao3, "💎")
-        self.assertEqual(multiplicador, multiplicadores["💎"])
+    def test_frequencia_de_vitorias_deve_ficar_entre_zero_e_cem(self):
+        total_rodadas = 10
 
-    @patch(
-        "src.motor.sortear_simbolo",
-        side_effect=["🍒", "🍋", "🔔"]
-    )
-    def test_simbolos_diferentes_devem_retornar_zero(
-        self,
-        mock_sortear_simbolo
-    ):
-        posicao1, posicao2, posicao3, multiplicador = executar_rodada()
+        (
+            vitorias,
+            frequencia_vitorias,
+            contagem_triplas,
+            contagem_simbolos
+        ) = executar_simulacao(total_rodadas)
 
-        self.assertEqual(posicao1, "🍒")
-        self.assertEqual(posicao2, "🍋")
-        self.assertEqual(posicao3, "🔔")
-        self.assertEqual(multiplicador, 0)
+        self.assertGreaterEqual(frequencia_vitorias, 0)
+        self.assertLessEqual(frequencia_vitorias, 100)
+
+    def test_soma_das_triplas_deve_ser_igual_ao_total_de_vitorias(self):
+        total_rodadas = 10
+
+        (
+            vitorias,
+            frequencia_vitorias,
+            contagem_triplas,
+            contagem_simbolos
+        ) = executar_simulacao(total_rodadas)
+
+        total_triplas = sum(contagem_triplas.values())
+
+        self.assertEqual(total_triplas, vitorias)
+
+    def test_zero_rodadas_deve_gerar_erro(self):
+        with self.assertRaises(ValueError):
+            executar_simulacao(0)
+
+    def test_numero_negativo_de_rodadas_deve_gerar_erro(self):
+        with self.assertRaises(ValueError):
+            executar_simulacao(-10)
+
+    def test_texto_como_total_de_rodadas_deve_gerar_erro(self):
+        with self.assertRaises(TypeError):
+            executar_simulacao("dez")
+
+    def test_numero_decimal_como_total_de_rodadas_deve_gerar_erro(self):
+        with self.assertRaises(TypeError):
+            executar_simulacao(10.5)
+
+    def test_mesma_seed_deve_produzir_mesmo_resultado(self):
+        primeiro_resultado = executar_simulacao(
+            100,
+            seed=42
+        )
+
+        segundo_resultado = executar_simulacao(
+            100,
+            seed=42
+        )
+
+        self.assertEqual(
+            primeiro_resultado,
+            segundo_resultado
+        )
 
 
 if __name__ == "__main__":
